@@ -1,3 +1,5 @@
+{/*
+
 import { headers } from "next/headers";
 
 export default async function getUrl(){
@@ -10,3 +12,26 @@ export default async function getUrl(){
   }
   return url;
 };
+
+*/}
+
+
+//ok
+//page
+  const domain = await getURL()
+//use this domain
+//
+import { headers } from "next/headers";
+
+export default async function getUrl() {
+  const headersList = await headers(); // Fetch headers in the server
+  const host = headersList.get("host"); // Get the host
+  const forwardedPath = headersList.get("x-forwarded-path") || ""; // Get forwarded path or use empty string
+  let url = `${host}${forwardedPath}`; // Construct the full URL
+
+  if (url.includes("www.")) {
+    url = url.replace("www.", ""); // Remove 'www.' if present
+  }
+  
+  return url;
+}
